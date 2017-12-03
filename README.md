@@ -23,3 +23,6 @@ We then iterate through <p> tags in that section, and (mostly) split the fields 
 Then, using ElementTree - to construct an XML doc with elements representing each plaque and sub-elements representing each attibute of the record. 
 
 Finally we dump the XML to a file.
+
+## To be done
+At present we are not grabbing the photographs of the plaque.
