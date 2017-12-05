@@ -20,9 +20,14 @@ The aim of this script if to use URLLib to grab the HTML of the page, then Beaut
 
 We then iterate through <p> tags in that section, and (mostly) split the fields on ":" - retaining the content
 
-Then, using ElementTree - to construct an XML doc with elements representing each plaque and sub-elements representing each attibute of the record. 
+As a quick and dirty fix I have created an output HTML file for each plaque (using the origina ID in the name) with paras with IDs representing the type of content - name, location type etc. 
 
-Finally we dump the XML to a file.
+## Issues
+The code choked on a number of pages where, I suspect, the original HTML contained some cut-and-paste text from another system which introduced off characters. At present I and stripping that out rather than do better error trapping! This is a quick hack, after all.
 
 ## To be done
-At present we are not grabbing the photographs of the plaque.
+At present I do not grab the photographs of the plaque.
+
+I need to do something better with the output - XML would be an improvement.
+
+The code is not very pythonic - so could be cleaned up a bit!
