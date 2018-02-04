@@ -5,6 +5,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import json
 import re
+from geopy.geocoders import Nominatim
 
 base_url = "https://online.aberdeencity.gov.uk/Services/CommemorativePlaque/PlaqueDetail.aspx?Id="
 file_start = "<htmL><body>"
@@ -12,6 +13,17 @@ file_end = "</body></html>"
 file_text = ""
 data = {} 
 data['plaques'] = [] 
+
+def get_coords (location):
+	geolocator = Nominatim()
+	loc = geolocator.geocode(location)
+	if loc != None:
+		lat = loc.latitude
+		lon = loc.longitude
+	else:
+		lat = ""
+		lon = ""
+	return lat, lon
 
 def do_the_scrape(inurl, id_str):
 
@@ -98,9 +110,34 @@ def do_the_scrape(inurl, id_str):
 				# uncomment the following line to download the photos
 
 				# urllib.request.urlretrieve (my_url, "photos/" + local_name)
+		
+		# process the address, looking for house numbers, splitting on commas, throwing away any housenames, checking if returned co-ords are wildly out		
+		if pl.find (',') != -1:
+			#comma found
+			pl = pl.split(',')[0]
+
+		if pl.find ('-') != -1:
+			#comma found
+			pl = pl.split('-')[0]
+
+		match_num = re.search ('[0-9]+', pl)
+		if match_num and len(pl) < 35 and pl !="1113":
+
+			print ("pl = " + pl)
+			lat_lon = get_coords (pl + ", Aberdeen")
+			print (lat_lon)
+		else: 
+			lat_lon = ('', '')
+		
+		latitude_out = str(lat_lon[0])
+		longitude_out = str(lat_lon[1])
+
+		if latitude_out[:2] != '57':
+			latitude_out = ""
+			longitude_out = ""
 
 		data['plaques'].append({  
-    	'name': pn, 'location': pl,'area': pa, 'type': pt , 'about': pab, 'photos': pic_list })
+    	'name': pn, 'location': pl, 'latitude': latitude_out, 'longitude': longitude_out, 'area': pa, 'type': pt , 'about': pab, 'photos': pic_list })
 
 
 		
