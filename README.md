@@ -3,7 +3,7 @@ Purpose: to scrape plaque data from the old Aberdeen City Council site
 
 ## Intro
 
-On 30 November 2017, Aberdeen City Council relaunched its website. In so doing, subtantial amounts of content and functionality was either written off or temporarilt shelved. 
+On 30 November 2017, Aberdeen City Council relaunched its website. In so doing, subtantial amounts of content and functionality was either written off or temporarily shelved. 
 
 This is the first of a series of scrapers needed to quickly grab that content before it vanishes forever. 
 
@@ -20,14 +20,13 @@ The aim of this script if to use URLLib to grab the HTML of the page, then Beaut
 
 We then iterate through <p> tags in that section, and (mostly) split the fields on ":" - retaining the content
 
-As a quick and dirty fix I have created an output HTML file for each plaque (using the origina ID in the name) with paras with IDs representing the type of content - name, location type etc. 
+I have now updated the scraper (03-Feb-2018) to push all the details to a single JSON file.
+
+A further update (04-Feb-2018) is now grabbing all photos and storing these in a /photos/ directory, and putting filenames into the json output
 
 ## Issues
 The code choked on a number of pages where, I suspect, the original HTML contained some cut-and-paste text from another system which introduced off characters. At present I and stripping that out rather than do better error trapping! This is a quick hack, after all.
 
 ## To be done
-At present I do not grab the photographs of the plaque.
-
-I need to do something better with the output - XML would be an improvement.
 
 The code is not very pythonic - so could be cleaned up a bit!
