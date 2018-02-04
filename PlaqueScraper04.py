@@ -4,6 +4,7 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import json
+import re
 
 base_url = "https://online.aberdeencity.gov.uk/Services/CommemorativePlaque/PlaqueDetail.aspx?Id="
 file_start = "<htmL><body>"
@@ -79,9 +80,27 @@ def do_the_scrape(inurl, id_str):
 			if pm2 != '':
 				pab += '\n\n' + pm2
 
+		pix = aspnet_form.find_all('img')
+		pic_list = []
+
+		for pic in pix: 
 		
+			links = [x['src'] for x in aspnet_form.findAll('img')]
+		
+			link_no = 0
+			for link in links:
+
+				m = re.search ('[a-z0-9]+.jpg', links[link_no], re.IGNORECASE)
+				local_name = m.group(0)
+
+				my_url = links [0]
+				pic_list.append (local_name)
+				# uncomment the following line to download the photos
+
+				# urllib.request.urlretrieve (my_url, "photos/" + local_name)
+
 		data['plaques'].append({  
-    	'name': pn, 'location': pl,'area': pa, 'type': pt , 'about': pab  })
+    	'name': pn, 'location': pl,'area': pa, 'type': pt , 'about': pab, 'photos': pic_list })
 
 
 		
